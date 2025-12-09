@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Resetar Configurações{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm text-center">
+                <div class="card-header bg-danger text-white">
+                    <h2 class="h4 mb-0">Resetar Configurações de Fábrica</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text fs-5">
+                        <strong>Atenção:</strong> Esta ação é irreversível.
+                    </p>
+                    <p>
+                        Todas as configurações de <strong>LoRa, Modbus, OPC UA e Alarmes</strong> serão restauradas para os valores originais de fábrica.
+                    </p>
+                    <p>
+                        Deseja continuar?
+                    </p>
+                    
+                    <!-- Formulário que envia o pedido de POST para a rota /reset -->
+                    <form method="POST" action="{{ url_for('reset') }}">
+                        <button type="submit" class="btn btn-danger btn-lg mt-3">
+                            Sim, Resetar para Padrão de Fábrica
+                        </button>
+                        <a href="{{ url_for('configuracao') }}" class="btn btn-secondary btn-lg mt-3">
+                            Cancelar
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

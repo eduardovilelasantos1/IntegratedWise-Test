@@ -1,0 +1,9 @@
+{
+    "classe": "C",
+    "janela": "15s",
+    "bandwidth": "125kHz",
+    "spreading_factor": 7,
+    "coding_rate": "4/5",
+    "wake_interval": 30,
+    "power": 20
+}

@@ -1,0 +1,26 @@
+{
+    "channel_1": {
+        "TRIM_ZERO_BIT": 176,
+        "TRIM_SPAN_BIT": 873
+    },
+    "channel_2": {
+        "TRIM_ZERO_BIT": 176,
+        "TRIM_SPAN_BIT": 933
+    },
+    "channel_3": {
+        "TRIM_ZERO_BIT": 176,
+        "TRIM_SPAN_BIT": 879
+    },
+    "channel_4": {
+        "TRIM_ZERO_BIT": 176,
+        "TRIM_SPAN_BIT": 879
+    },
+    "channel_5": {
+        "TRIM_ZERO_BIT": 176,
+        "TRIM_SPAN_BIT": 879
+    },
+    "channel_6": {
+        "TRIM_ZERO_BIT": 176,
+        "TRIM_SPAN_BIT": 879
+    }
+}

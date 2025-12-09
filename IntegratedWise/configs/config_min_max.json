@@ -1,0 +1,68 @@
+{
+    "channel_1": {
+        "label": "N\u00edvel monte de a\u00e7\u00facar",
+        "unit": "m",
+        "min": 0.0,
+        "max": 50.0,
+        "channel": 1
+    },
+    "channel_2": {
+        "label": "PT100 mancal superior lado direto",
+        "unit": "\u00baC",
+        "min": 0.0,
+        "max": 200.0,
+        "channel": 2
+    },
+    "channel_3": {
+        "label": "Sensor 3",
+        "unit": "-",
+        "min": 0.0,
+        "max": 4095.0,
+        "channel": 3
+    },
+    "channel_4": {
+        "label": "Sensor 4",
+        "unit": "-",
+        "min": 0.0,
+        "max": 4095.0,
+        "channel": 4
+    },
+    "channel_5": {
+        "label": "Sensor 5",
+        "unit": "-",
+        "min": 0.0,
+        "max": 4095.0,
+        "channel": 5
+    },
+    "channel_6": {
+        "label": "Sensor 6",
+        "unit": "-",
+        "min": 0.0,
+        "max": 4095.0,
+        "channel": 6
+    },
+    "battery_voltage": {
+        "label": "Tens\u00e3o da Bateria",
+        "unit": "\u00baC",
+        "min": 0.0,
+        "max": 15.0
+    },
+    "battery_current": {
+        "label": "Corrente M\u00e9dia",
+        "unit": "\u00baC",
+        "min": 0.0,
+        "max": 500.0
+    },
+    "consumo_mah": {
+        "label": "Consumo Acumulado",
+        "unit": "\u00baC",
+        "min": 0.0,
+        "max": 54000.0
+    },
+    "comm_loss_counter": {
+        "label": "Tempo sem Comunica\u00e7\u00e3o",
+        "unit": "\u00baC",
+        "min": 0.0,
+        "max": 86400.0
+    }
+}

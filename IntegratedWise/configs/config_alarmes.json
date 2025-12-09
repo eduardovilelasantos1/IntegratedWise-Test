@@ -1,0 +1,65 @@
+{
+    "relay_1": {
+        "source": "channel_1",
+        "alarm_name": "nivel alto",
+        "type": "high",
+        "limit_real": 45.0,
+        "limit_bits": 3685
+    },
+    "relay_2": {
+        "source": "",
+        "alarm_name": "",
+        "type": "high",
+        "limit_real": 0.0,
+        "limit_bits": 0
+    },
+    "relay_3": {
+        "source": "",
+        "alarm_name": "",
+        "type": "high",
+        "limit_real": 0.0,
+        "limit_bits": 0
+    },
+    "relay_4": {
+        "source": "",
+        "alarm_name": "",
+        "type": "high",
+        "limit_real": 0.0,
+        "limit_bits": 0
+    },
+    "relay_5": {
+        "source": "",
+        "alarm_name": "",
+        "type": "high",
+        "limit_real": 0.0,
+        "limit_bits": 0
+    },
+    "relay_6": {
+        "source": "",
+        "alarm_name": "",
+        "type": "high",
+        "limit_real": 0.0,
+        "limit_bits": 0
+    },
+    "relay_7": {
+        "source": "",
+        "alarm_name": "",
+        "type": "high",
+        "limit_real": 0.0,
+        "limit_bits": 0
+    },
+    "relay_8": {
+        "source": "",
+        "alarm_name": "",
+        "type": "high",
+        "limit_real": 0.0,
+        "limit_bits": 0
+    },
+    "relay_9": {
+        "source": "",
+        "alarm_name": "",
+        "type": "high",
+        "limit_real": 0.0,
+        "limit_bits": 0
+    }
+}
