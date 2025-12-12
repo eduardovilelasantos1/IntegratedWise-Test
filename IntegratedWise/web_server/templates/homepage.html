@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Página Inicial - WK Soluções Industriais{% endblock %}
+
+{% block head %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #0d2c4b 0%, #1597a8 100%);
+        color: white;
+        padding: 5rem 1.5rem; /* Ajustado para melhor visualização em mobile */
+        border-radius: 15px;
+    }
+    .hero-section h1 {
+        font-weight: 700;
+        font-size: 2.5rem; /* Ligeiramente ajustado para o novo contexto */
+    }
+    .hero-section p {
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        color: rgba(255, 255, 255, 0.85);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <!-- Secção de Boas-Vindas Simplificada -->
+    <div class="hero-section text-center my-5 shadow">
+        <h1 class="display-4">WK Soluções Industriais</h1>
+        <p class="lead mt-3">
+            Bem-vindo à interface de configuração local do seu dispositivo.
+            <br>
+            Utilize esta plataforma para ajustar os parâmetros de comunicação e alarmes.
+        </p>
+        <a href="{{ url_for('login') }}" class="btn btn-light btn-lg mt-4 fw-bold">Iniciar Configuração</a>
+    </div>
+</div>
+{% endblock %}
+

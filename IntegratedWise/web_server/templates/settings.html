@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block head %}
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Configuração da Comunicação</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('salvar_configuracao') }}" class="card shadow-sm p-4">
+        
+        <div class="accordion" id="settingsAccordion">
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingLora">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLora">
+                        Configuração LoRa
+                    </button>
+                </h2>
+                <div id="collapseLora" class="accordion-collapse collapse show" data-bs-parent="#settingsAccordion">
+                    <div class="accordion-body">
+                        <div class="mb-3">
+                            <label class="form-label">Classe:</label>
+                            <select name="lora_classe" class="form-select">
+                                <option value="A" {% if lora_config.classe == 'A' %}selected{% endif %}>A (Economia)</option>
+                                <option value="C" {% if lora_config.classe == 'C' %}selected{% endif %}>C (Sempre ON)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Intervalo de Acordar (s):</label>
+                            <input type="number" name="lora_wake_interval" value="{{ lora_config.get('wake_interval', 30) }}" class="form-control" min="5" max="3600" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Janela de Recepção:</label>
+                            <select name="lora_janela" class="form-select">
+                                <option value="5s" {% if lora_config.janela == '5s' %}selected{% endif %}>5s</option>
+                                <option value="10s" {% if lora_config.janela == '10s' %}selected{% endif %}>10s</option>
+                                <option value="15s" {% if lora_config.janela == '15s' %}selected{% endif %}>15s</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Largura de Banda:</label>
+                            <select name="lora_bandwidth" class="form-select">
+                                <option value="125kHz" {% if lora_config.bandwidth == '125kHz' %}selected{% endif %}>125kHz</option>
+                                <option value="250kHz" {% if lora_config.bandwidth == '250kHz' %}selected{% endif %}>250kHz</option>
+                                <option value="500kHz" {% if lora_config.bandwidth == '500kHz' %}selected{% endif %}>500kHz</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Spreading Factor:</label>
+                            <select name="lora_spreading_factor" class="form-select">
+                                {% for i in range(7, 13) %}
+                                <option value="{{ i }}" {% if lora_config.spreading_factor == i %}selected{% endif %}>{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Coding Rate:</label>
+                            <select name="lora_coding_rate" class="form-select">
+                                <option value="4/5" {% if lora_config.coding_rate == '4/5' %}selected{% endif %}>4/5</option>
+                                <option value="4/6" {% if lora_config.coding_rate == '4/6' %}selected{% endif %}>4/6</option>
+                                <option value="4/7" {% if lora_config.coding_rate == '4/7' %}selected{% endif %}>4/7</option>
+                                <option value="4/8" {% if lora_config.coding_rate == '4/8' %}selected{% endif %}>4/8</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingBat">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBat">
+                        Configuração de Energia / Bateria
+                    </button>
+                </h2>
+                <div id="collapseBat" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
+                    <div class="accordion-body">
+                        <div class="mb-3">
+                            <label class="form-label">Capacidade Total da Bateria (mAh):</label>
+                            <input type="number" name="battery_capacity" 
+                                   value="{{ battery_config.get('capacity_mah', 54000) }}" 
+                                   class="form-control" required />
+                            <small class="text-muted">Usado para calcular a porcentagem restante.</small>
+                        </div>
+                        
+                        <div class="alert alert-warning mt-4">
+                            <strong>Manutenção:</strong>
+                            <p class="mb-2">Se você trocou a bateria física, clique abaixo para zerar o contador de consumo.</p>
+                            <button type="submit" formaction="{{ url_for('reset_bateria') }}" class="btn btn-danger">
+                                Confirmar Troca de Bateria (Zerar Consumo)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingModbus">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseModbus">
+                        Configuração Modbus
+                    </button>
+                </h2>
+                <div id="collapseModbus" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
+                    <div class="accordion-body">
+                        <div class="mb-3">
+                            <label class="form-label">IP:</label>
+                            <input type="text" name="modbus_host" value="{{ modbus_host }}" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Porta:</label>
+                            <input type="number" name="modbus_port" value="{{ modbus_port }}" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Unit ID:</label>
+                            <input type="number" name="unit_id" value="{{ unit_id }}" class="form-control" />
+                        </div>
+                        <h6 class="mt-3">Identidade:</h6>
+                        <div class="row g-2">
+                            <div class="col-6"><input type="text" name="vendor_name" value="{{ server_identity.VendorName }}" class="form-control" placeholder="Vendor"></div>
+                            <div class="col-6"><input type="text" name="product_code" value="{{ server_identity.ProductCode }}" class="form-control" placeholder="Code"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+             <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOpc">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOpc">
+                        Configuração OPC UA
+                    </button>
+                </h2>
+                <div id="collapseOpc" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
+                    <div class="accordion-body">
+                         <div class="mb-3">
+                            <label class="form-label">Nome Servidor:</label>
+                            <input type="text" name="opcua_server_name" value="{{ opcua_server_name }}" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">URL:</label>
+                            <input type="text" name="opcua_server_url" value="{{ opcua_server_url }}" class="form-control" />
+                        </div>
+                         <div class="mb-3">
+                            <label class="form-label">Nó Principal:</label>
+                            <input type="text" name="opcua_main_node" value="{{ opcua_main_node }}" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Usuários (user:pass):</label>
+                            <input type="text" name="opcua_users" value="{% for u,p in opcua_users.items() %}{{u}}:{{p}},{% endfor %}" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <input type="submit" value="Salvar Todas as Configurações" class="btn btn-primary btn-lg" />
+        </div>
+    </form>
+</div>
+{% endblock %}

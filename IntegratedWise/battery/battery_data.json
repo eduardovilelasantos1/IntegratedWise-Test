@@ -1,0 +1,9 @@
+{
+    "timestamp": "2025-12-11 18:08:57",
+    "consumo_acumulado_mah": 1328.648345,
+    "capacidade_total_mah": 54000.0,
+    "voltage": 12.29,
+    "current": 83.2,
+    "bat_percent": 97.5,
+    "bat_days": 26.4
+}

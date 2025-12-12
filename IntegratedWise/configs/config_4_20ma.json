@@ -1,0 +1,18 @@
+{
+    "CHANNEL1": {
+        "TRIM_ZERO_BIT": 900,
+        "TRIM_SPAN_BIT": 1200
+    },
+    "CHANNEL2": {
+        "TRIM_ZERO_BIT": 900,
+        "TRIM_SPAN_BIT": 1200
+    },
+    "CHANNEL3": {
+        "TRIM_ZERO_BIT": 900,
+        "TRIM_SPAN_BIT": 1200
+    },
+    "CHANNEL4": {
+        "TRIM_ZERO_BIT": 900,
+        "TRIM_SPAN_BIT": 1200
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "channel_1": 0.0,
+    "channel_2": 22.65,
+    "channel_3": 8.02,
+    "channel_4": 0.0,
+    "channel_5": 0.0,
+    "channel_6": 0.0,
+    "battery_voltage": 12.29,
+    "battery_avg_current": 42.37,
+    "consumo_mah": 1328.6483,
+    "bat_percent": 97.5,
+    "bat_days": 26.4,
+    "comm_time": 0.2,
+    "snr_ida": 7,
+    "snr_volta": 6,
+    "rssi_ida": -17,
+    "rssi_volta": -16,
+    "comm_loss_counter": 0,
+    "online": true
+}
