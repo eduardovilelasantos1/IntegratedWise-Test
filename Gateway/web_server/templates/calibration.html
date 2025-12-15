@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Calibração e Sensores{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="content-card">
+        <h2 class="text-center mb-4">Configuração dos Sensores & Calibração</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('salvar_calibracao') }}">
+            
+            <div class="mb-5">
+                <h4 class="mb-3 text-primary border-bottom pb-2">1. Configuração dos Sensores (Entrada)</h4>
+                <div class="accordion" id="sensorsAccordion">
+                    {% for key, data in sensor_config.items() %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ key }}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ key }}" aria-expanded="false">
+                                <strong>{{ data.get('label', key) }}</strong> 
+                                <span class="text-muted ms-2 small">({{ key|replace('channel_', 'Canal ') }})</span>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ key }}" class="accordion-collapse collapse" data-bs-parent="#sensorsAccordion">
+                            <div class="accordion-body bg-light">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Nome do Sensor:</label>
+                                        <input type="text" class="form-control" name="sensor_{{ key }}_label" value="{{ data.get('label', '') }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Unidade:</label>
+                                        <select class="form-select" name="sensor_{{ key }}_unit">
+                                            <option value="ºC" {% if data.get('unit') == 'ºC' %}selected{% endif %}>ºC (Temperatura)</option>
+                                            <option value="m" {% if data.get('unit') == 'm' %}selected{% endif %}>m (Metros)</option>
+                                            <option value="kg" {% if data.get('unit') == 'kg' %}selected{% endif %}>kg (Peso)</option>
+                                            <option value="%" {% if data.get('unit') == '%' %}selected{% endif %}>% (Porcentagem)</option>
+                                            <option value="Bar" {% if data.get('unit') == 'Bar' %}selected{% endif %}>Bar (Pressão)</option>
+                                            <option value="-" {% if data.get('unit') == '-' %}selected{% endif %}>- (Sem unidade)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Valor Mínimo (Zero):</label>
+                                        <input type="number" step="0.01" class="form-control" name="sensor_{{ key }}_min" value="{{ data.min }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Valor Máximo (Scale):</label>
+                                        <input type="number" step="0.01" class="form-control" name="sensor_{{ key }}_max" value="{{ data.max }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h4 class="mb-3 text-primary border-bottom pb-2">2. Calibração Elétrica DAC (Saída 4-20mA)</h4>
+                
+                <label for="channel_selector" class="form-label fw-bold">Selecione o Canal do DAC:</label>
+                <select id="channel_selector" class="form-select mb-3">
+                    <option value="">-- Selecione para editar --</option>
+                    {% for channel_name in config.keys() %}
+                        <option value="{{ channel_name }}">{{ channel_name|replace('channel_', 'Canal ') }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="hidden" name="selected_channel" id="selected_channel">
+
+                <div id="dac-forms-container">
+                    {% for channel_name, channel_data in config.items() %}
+                    <div class="channel-form card p-3 bg-light" id="form-{{ channel_name }}" style="display: none;">
+                        <h5 class="card-title text-center">{{ channel_name|replace('channel_', 'Canal ') }}</h5>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Trim Zero (Bits para 4mA)</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary btn-decrement" type="button">-</button>
+                                <input type="number" class="form-control text-center" 
+                                       name="TRIM_ZERO_BIT_{{ channel_name }}" 
+                                       value="{{ channel_data['TRIM_ZERO_BIT'] }}">
+                                <button class="btn btn-outline-secondary btn-increment" type="button">+</button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Trim Span (Bits para 20mA)</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary btn-decrement" type="button">-</button>
+                                <input type="number" class="form-control text-center" 
+                                       name="TRIM_SPAN_BIT_{{ channel_name }}" 
+                                       value="{{ channel_data['TRIM_SPAN_BIT'] }}">
+                                <button class="btn btn-outline-secondary btn-increment" type="button">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end pb-5">
+                <button type="submit" class="btn btn-success btn-lg">Salvar Tudo</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selector = document.getElementById('channel_selector');
+        const hiddenInput = document.getElementById('selected_channel');
+        const forms = document.querySelectorAll('.channel-form');
+
+        selector.addEventListener('change', function() {
+            hiddenInput.value = this.value;
+            forms.forEach(f => f.style.display = 'none');
+            if (this.value) {
+                document.getElementById('form-' + this.value).style.display = 'block';
+            }
+        });
+
+        document.querySelectorAll('.btn-increment').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = btn.previousElementSibling;
+                input.value = parseInt(input.value) + 1;
+            });
+        });
+        document.querySelectorAll('.btn-decrement').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = btn.nextElementSibling;
+                input.value = parseInt(input.value) - 1;
+            });
+        });
+    });
+</script>
+{% endblock %}

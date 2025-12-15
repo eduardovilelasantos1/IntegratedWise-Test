@@ -1,0 +1,13 @@
+{
+    "MODBUS_HOST": "0.0.0.0",
+    "MODBUS_PORT": 502,
+    "UNIT_ID": 1,
+    "SERVER_IDENTITY": {
+        "VendorName": "WK Solucoes",
+        "ProductCode": "WK-GW-01",
+        "VendorUrl": "",
+        "ProductName": "",
+        "ModelName": "",
+        "MajorMinorRevision": ""
+    }
+}

@@ -1,0 +1,65 @@
+<style>
+    .navbar-custom {
+        background-color: #0d2c4b;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .navbar-brand:hover {
+        color: #ffffff;
+    }
+    .navbar-custom .nav-link.active {
+        color: #ffffff;
+        font-weight: 700;
+    }
+    .navbar-custom .navbar-brand {
+        font-weight: 700 !important;
+        letter-spacing: 0.5px;
+        font-size: 1.25rem;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">WK Soluções Industriais</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'login' %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'configuracao' %}active{% endif %}" href="{{ url_for('configuracao') }}">Configuração</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'calibracao' %}active{% endif %}" href="{{ url_for('calibracao') }}">Calibração</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'alarmes' %}active{% endif %}" href="{{ url_for('alarmes') }}">Alarmes</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'visualizacao' %}active{% endif %}" href="{{ url_for('visualizacao') }}">Visualização de Dados</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'reset' %}active{% endif %}" href="{{ url_for('reset') }}">Reset</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>

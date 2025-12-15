@@ -1,0 +1,44 @@
+{
+    "channel_1": {
+        "label": "Sensor 1",
+        "unit": "-",
+        "min": 0.0,
+        "max": 4095.0,
+        "channel": 1
+    },
+    "channel_2": {
+        "label": "PT100",
+        "unit": "\u00baC",
+        "min": 0.0,
+        "max": 150.0,
+        "channel": 2
+    },
+    "channel_3": {
+        "label": "N\u00edvel",
+        "unit": "%",
+        "min": 0.0,
+        "max": 100.0,
+        "channel": 3
+    },
+    "channel_4": {
+        "label": "Sensor 4",
+        "unit": "-",
+        "min": 0.0,
+        "max": 4095.0,
+        "channel": 4
+    },
+    "channel_5": {
+        "label": "Sensor 5",
+        "unit": "-",
+        "min": 0.0,
+        "max": 4095.0,
+        "channel": 5
+    },
+    "channel_6": {
+        "label": "Sensor 6",
+        "unit": "-",
+        "min": 0.0,
+        "max": 4095.0,
+        "channel": 6
+    }
+}
